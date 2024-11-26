@@ -4,20 +4,24 @@ import { Input } from "../ui/input";
 import { Card } from "../ui/card";
 import { Trophy } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../store/store/Store";
 import { registers } from "@/store/features/authSlice";
-import authSlice from "../../store/features/authSlice";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 interface IFormInput {
   name: string;
   email: string;
   password: string;
   confirmPassword: string;
+  phone: string;
 }
 
 export function RegisterForm() {
-  const { isLoading } = useSelector((state: any) => state.auth);
+  const { isLoading, error, isLogin } = useSelector((state: any) => state.auth);
+  console.log(error);
+
   console.log(isLoading);
+  const dispatch: AppDispatch = useDispatch();
 
   const {
     register,
@@ -26,8 +30,13 @@ export function RegisterForm() {
     watch,
   } = useForm<IFormInput>();
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<IFormInput> = (data: any) => {
     console.log(data);
+    dispatch(registers(data));
+
+    if (isLogin) {
+      <Navigate to="/" replace />;
+    }
   };
 
   return (
@@ -59,6 +68,14 @@ export function RegisterForm() {
             {errors.name && (
               <p className="text-red-500 text-xs">{errors.name.message}</p>
             )}
+            {error?.length > 0 &&
+              error.map((item: any, index: number) =>
+                item.path === "name" ? (
+                  <p className="text-red-500 text-sm mt-1" key={index}>
+                    {item.msg}
+                  </p>
+                ) : null
+              )}
           </div>
 
           <div>
@@ -81,6 +98,45 @@ export function RegisterForm() {
             {errors.email && (
               <p className="text-red-500 text-xs">{errors.email.message}</p>
             )}
+            {error?.length > 0 &&
+              error.map((item: any, index: number) =>
+                item.path === "email" ? (
+                  <p className="text-red-500 text-sm mt-1" key={index}>
+                    {item.msg}
+                  </p>
+                ) : null
+              )}
+          </div>
+
+          <div>
+            <label
+              htmlFor="phone"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Phone Number
+            </label>
+            <Input
+              id="phone"
+              type="text"
+              placeholder="Enter your phone number"
+              {...register("phone", {
+                required: "Phone number is required",
+                pattern:
+                  /^[+]*[0-9]{1,3}[ -]?[0-9]{1,4}[ -]?[0-9]{1,4}[ -]?[0-9]{1,4}$/i,
+              })}
+              className="mt-1"
+            />
+            {errors.phone && (
+              <p className="text-red-500 text-xs">{errors.phone.message}</p>
+            )}
+            {error?.length > 0 &&
+              error.map((item: any, index: number) =>
+                item.path === "phone" ? (
+                  <p className="text-red-500 text-sm mt-1" key={index}>
+                    {item.msg}
+                  </p>
+                ) : null
+              )}
           </div>
 
           <div>
@@ -106,6 +162,14 @@ export function RegisterForm() {
             {errors.password && (
               <p className="text-red-500 text-xs">{errors.password.message}</p>
             )}
+            {error?.length > 0 &&
+              error.map((item: any, index: number) =>
+                item.path === "password" ? (
+                  <p className="text-red-500 text-sm mt-1" key={index}>
+                    {item.msg}
+                  </p>
+                ) : null
+              )}
           </div>
 
           <div>
@@ -131,6 +195,15 @@ export function RegisterForm() {
                 {errors.confirmPassword.message}
               </p>
             )}
+
+            {error?.length > 0 &&
+              error.map((item: any, index: number) =>
+                item.path === "confirmPassword" ? (
+                  <p className="text-red-500 text-sm mt-1" key={index}>
+                    {item.msg}
+                  </p>
+                ) : null
+              )}
           </div>
 
           {isLoading ? (

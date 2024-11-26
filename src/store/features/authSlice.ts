@@ -60,32 +60,35 @@ export const registers = createAsyncThunk(
     }
   }
 );
-export const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
-  console.log("Data being sent to API:", data);
+export const login = createAsyncThunk(
+  "auth/login",
+  async (data: any, thunkAPI) => {
+    console.log("Data being sent to API:", data);
 
-  try {
-    const res: AxiosResponse = await axios.post(
-      "http://localhost:8001/api/v1/auth/login",
-      data,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    try {
+      const res: AxiosResponse = await axios.post(
+        "http://localhost:8001/api/v1/auth/login",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    console.log("Response from API:", res.data);
+      console.log("Response from API:", res.data);
 
-    return res.data;
-  } catch (error: any) {
-    console.error(
-      "Error while registering:",
-      error.response?.data || error.message
-    );
+      return res.data;
+    } catch (error: any) {
+      console.error(
+        "Error while registering:",
+        error.response?.data || error.message
+      );
 
-    return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error);
+    }
   }
-});
+);
 
 export const verifyOtp = createAsyncThunk(
   "auth/verifyOtp",

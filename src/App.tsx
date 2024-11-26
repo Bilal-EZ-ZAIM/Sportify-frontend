@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { isLogins } from "./store/features/authSlice";
 import ProtectedRoutAuth from "./authGaurd/ProtectedRoutAuth";
 import { AppDispatch } from "./store/store/Store";
+import ProtectedRoutAdmin from "./authGaurd/ProtectedRoutAdmin";
 
 const mockEvent = {
   _id: "1",
@@ -35,7 +36,7 @@ const mockEvent = {
 };
 
 function App() {
-  const { error, status, isLogin } = useSelector((state: any) => state.auth);
+  const { isLogin } = useSelector((state: any) => state.auth);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -77,9 +78,11 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            <Layout>
-              <Dashboard />
-            </Layout>
+            <ProtectedRoutAdmin>
+              <Layout>
+                <Dashboard />
+              </Layout>
+            </ProtectedRoutAdmin>
           }
         />
         <Route

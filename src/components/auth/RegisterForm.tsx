@@ -6,7 +6,7 @@ import { Trophy } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/store/Store";
 import { registers } from "@/store/features/authSlice";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface IFormInput {
   name: string;
@@ -22,6 +22,7 @@ export function RegisterForm() {
 
   console.log(isLoading);
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -35,7 +36,7 @@ export function RegisterForm() {
     dispatch(registers(data));
 
     if (isLogin) {
-      <Navigate to="/" replace />;
+      navigate("/", { replace: true });
     }
   };
 

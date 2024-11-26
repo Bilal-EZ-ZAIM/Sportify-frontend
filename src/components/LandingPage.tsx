@@ -3,8 +3,10 @@ import { Pricing } from "./Pricing";
 import { TeamMembers } from "./TeamMembers";
 import { Button } from "./ui/button";
 import { Trophy, Calendar, Users, ArrowRight } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export function LandingPage() {
+  const { isLogin } = useSelector((state: any) => state.auth);
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <header className="px-4 py-6 md:px-6 lg:px-8">
@@ -15,9 +17,15 @@ export function LandingPage() {
               SportEvents
             </span>
           </div>
-          <Link to="/login">
-            <Button variant="outline">Sign In</Button>{" "}
-          </Link>
+          {isLogin ? (
+            <Link to="/dashboard">
+              <Button variant="outline">Dashboard</Button>
+            </Link>
+          ) : (
+            <Link to="/login">
+              <Button variant="outline">Sign In</Button>
+            </Link>
+          )}
         </nav>
       </header>
 

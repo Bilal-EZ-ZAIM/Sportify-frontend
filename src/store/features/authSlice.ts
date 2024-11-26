@@ -4,7 +4,7 @@ import axios, { AxiosResponse } from "axios";
 
 interface AuthState {
   isLoading: boolean;
-  user: any | null; 
+  user: any | null;
   error: string | null;
   erros: string | null;
   token: string | null;
@@ -30,12 +30,15 @@ const initialState: AuthState = {
 // Create async thunk for registering a user
 export const registers = createAsyncThunk(
   "auth/register",
-  async (data, thunkAPI) => {
-    console.log("Data being sent to API:", data);
+  async (data: any, thunkAPI) => {
+    console.log("===========");
+
+    console.log("Data ", data);
+    console.log("===========");
 
     try {
       const res: AxiosResponse = await axios.post(
-        "http://localhost:8001/api/auth/register",
+        "http://localhost:8001/api/v1/auth/register",
         data,
         {
           headers: {
@@ -62,7 +65,7 @@ export const login = createAsyncThunk("auth/login", async (data, thunkAPI) => {
 
   try {
     const res: AxiosResponse = await axios.post(
-      "http://localhost:8001/api/auth/login",
+      "http://localhost:8001/api/v1/auth/login",
       data,
       {
         headers: {
@@ -197,14 +200,17 @@ export const Deconxion = createAsyncThunk(
 
 export const isLogins = createAsyncThunk(
   "auth/isLogins",
-  async (token, thunkAPI: any) => {
+  async (token: string, thunkAPI: any) => {
     try {
-      const res = await axios.get(`http://localhost:8001/api/auth/islogin/`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        `http://localhost:8001/api/v1/auth/islogin/`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       console.log("Response from API:", res.data);
 
@@ -239,8 +245,10 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload;
         console.log("User registered successfully:", action.payload);
+        state.isLogin = true;
         state.token = action.payload.token;
         state.error = null;
+        localStorage.setItem("token", action.payload.token);
       })
       .addCase(registers.rejected, (state, action: any) => {
         state.isLoading = false;
@@ -264,7 +272,7 @@ const authSlice = createSlice({
         state.token = action.payload.token;
         state.error = null;
         state.status = true;
-
+        localStorage.setItem("token", action.payload.token);
         console.log(state.token);
       })
       .addCase(login.rejected, (state, action: any) => {

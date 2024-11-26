@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Pricing } from "./Pricing";
 import { TeamMembers } from "./TeamMembers";
 import { Button } from "./ui/button";
@@ -6,7 +7,6 @@ import { Trophy, Calendar, Users, ArrowRight } from "lucide-react";
 export function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      {/* Hero Section */}
       <header className="px-4 py-6 md:px-6 lg:px-8">
         <nav className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
@@ -15,7 +15,9 @@ export function LandingPage() {
               SportEvents
             </span>
           </div>
-          <Button variant="outline">Sign In</Button>
+          <Link to="/login">
+            <Button variant="outline">Sign In</Button>{" "}
+          </Link>
         </nav>
       </header>
 

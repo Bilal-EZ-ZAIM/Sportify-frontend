@@ -1,16 +1,15 @@
-import { useState } from 'react';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Card } from '../ui/card';
-import { Trophy } from 'lucide-react';
+import { useState } from "react";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { Card } from "../ui/card";
+import { Trophy } from "lucide-react";
 
 export function LoginForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
   };
 
   return (
@@ -24,7 +23,10 @@ export function LoginForm() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
               Email
             </label>
             <Input
@@ -38,7 +40,10 @@ export function LoginForm() {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
               Password
             </label>
             <Input
@@ -58,13 +63,19 @@ export function LoginForm() {
                 type="checkbox"
                 className="h-4 w-4 text-blue-600 rounded border-gray-300"
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+              <label
+                htmlFor="remember-me"
+                className="ml-2 block text-sm text-gray-700"
+              >
                 Remember me
               </label>
             </div>
 
             <div className="text-sm">
-              <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+              <a
+                href="#"
+                className="font-medium text-blue-600 hover:text-blue-500"
+              >
                 Forgot password?
               </a>
             </div>
@@ -75,8 +86,11 @@ export function LoginForm() {
           </Button>
 
           <p className="text-center text-sm text-gray-500">
-            Don't have an account?{' '}
-            <a href="/register" className="font-medium text-blue-600 hover:text-blue-500">
+            Don't have an account?{" "}
+            <a
+              href="/register"
+              className="font-medium text-blue-600 hover:text-blue-500"
+            >
               Sign up
             </a>
           </p>

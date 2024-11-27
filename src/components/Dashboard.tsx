@@ -54,14 +54,14 @@ const mockEvents = [
 ];
 
 export function Dashboard() {
-  const { events } = useSelector((state: any) => state.event);
+  const { events, count } = useSelector((state: any) => state.event);
   console.log(events);
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     const data: any = { page: 1, limit: 3 };
     dispatch(getEvents(data));
-  }, []);
+  }, [count]);
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isAddParticipantModalOpen, setIsAddParticipantModalOpen] =
@@ -158,7 +158,6 @@ export function Dashboard() {
       <AddParticipantModal
         isOpen={isAddParticipantModalOpen}
         onOpenChange={setIsAddParticipantModalOpen}
-        events={mockEvents}
       />
     </div>
   );

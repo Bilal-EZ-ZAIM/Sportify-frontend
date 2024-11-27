@@ -80,6 +80,32 @@ export const getEvents = createAsyncThunk(
   }
 );
 
+export const deleteEvent = createAsyncThunk(
+  "event/deleteEvent",
+  async (id: string, thunkAPI) => {
+    try {
+      const token: any = localStorage.getItem("token");
+      const res: AxiosResponse = await axios.delete(
+        `http://localhost:8001/api/v1/manager/event/delete/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return res.data;
+    } catch (error: any) {
+      console.error(
+        "Error while registering:",
+        error.response?.data || error.message
+      );
+
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 // Create the slice
 const eventSlice = createSlice({
   name: "event",
@@ -118,6 +144,23 @@ const eventSlice = createSlice({
         state.events = action.payload;
       })
       .addCase(getEvents.rejected, (state, action: any) => {
+        state.isLoading = false;
+        state.status = false;
+      });
+
+    builder
+      // deleteEvent
+      .addCase(deleteEvent.pending, (state) => {
+        console.log("is pending");
+        state.isLoading = true;
+        state.status = false;
+      })
+      .addCase(deleteEvent.fulfilled, (state, action: any) => {
+        state.isLoading = false;
+        state.count += 1;
+        console.log("User registered successfully:", action.payload);
+      })
+      .addCase(deleteEvent.rejected, (state, action: any) => {
         state.isLoading = false;
         state.status = false;
       });

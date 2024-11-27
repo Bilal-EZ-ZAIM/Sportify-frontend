@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { CreateEventModal } from "./dashboard/CreateEventModal";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
+import Swal from "sweetalert2";
 import {
   Table,
   TableBody,
@@ -14,7 +15,7 @@ import { PlusIcon } from "lucide-react";
 import { AppDispatch } from "@/store/store/Store";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getEvents } from "@/store/features/eventSlice";
+import { deleteEvent, getEvents } from "@/store/features/eventSlice";
 
 export function EventList() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -29,6 +30,27 @@ export function EventList() {
     const data: any = { page: currentPage, limit: 6 };
     dispatch(getEvents(data));
   }, [currentPage, count]);
+
+  const deletedEvent = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteEvent(id));
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -79,7 +101,12 @@ export function EventList() {
                     >
                       Edit
                     </Button>
-                    <Button variant="ghost" size="sm" className="text-red-500">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-red-500"
+                      onClick={() => deletedEvent(item._id)}
+                    >
                       Delete
                     </Button>
                   </TableCell>

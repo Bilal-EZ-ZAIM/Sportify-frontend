@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Button } from './ui/button';
+import { useEffect, useState } from "react";
+import { Button } from "./ui/button";
 import {
   CalendarDaysIcon,
   UsersIcon,
@@ -7,51 +7,64 @@ import {
   TrendingUpIcon,
   BarChart3Icon,
   UserPlusIcon,
-} from 'lucide-react';
-import { EventCard } from './EventCard';
-import { StatCard } from './dashboard/StatCard';
-import { ParticipantChart } from './dashboard/ParticipantChart';
-import { RecentEvents } from './dashboard/RecentEvents';
-import { UpdateEventModal } from './dashboard/UpdateEventModal';
-import { AddParticipantModal } from './dashboard/AddParticipantModal';
-import { Event } from '@/types';
+} from "lucide-react";
+import { EventCard } from "./EventCard";
+import { StatCard } from "./dashboard/StatCard";
+import { ParticipantChart } from "./dashboard/ParticipantChart";
+import { RecentEvents } from "./dashboard/RecentEvents";
+import { UpdateEventModal } from "./dashboard/UpdateEventModal";
+import { AddParticipantModal } from "./dashboard/AddParticipantModal";
+import { Event } from "@/types";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { getEvents } from "@/store/features/eventSlice";
 
 const mockEvents = [
   {
-    id: '1',
-    title: 'City Marathon 2024',
-    date: 'March 15, 2024',
-    location: 'Central Park',
-    description: 'Annual city marathon event',
+    id: "1",
+    title: "City Marathon 2024",
+    date: "March 15, 2024",
+    location: "Central Park",
+    description: "Annual city marathon event",
     maxParticipants: 500,
     currentParticipants: 350,
-    status: 'upcoming' as const,
+    status: "upcoming" as const,
   },
   {
-    id: '2',
-    title: 'Basketball Tournament',
-    date: 'March 20, 2024',
-    location: 'Sports Complex',
-    description: 'Inter-city basketball championship',
+    id: "2",
+    title: "Basketball Tournament",
+    date: "March 20, 2024",
+    location: "Sports Complex",
+    description: "Inter-city basketball championship",
     maxParticipants: 200,
     currentParticipants: 180,
-    status: 'ongoing' as const,
+    status: "ongoing" as const,
   },
   {
-    id: '3',
-    title: 'Swimming Competition',
-    date: 'March 25, 2024',
-    location: 'Olympic Pool',
-    description: 'National swimming championship',
+    id: "3",
+    title: "Swimming Competition",
+    date: "March 25, 2024",
+    location: "Olympic Pool",
+    description: "National swimming championship",
     maxParticipants: 100,
     currentParticipants: 75,
-    status: 'upcoming' as const,
+    status: "upcoming" as const,
   },
 ];
 
 export function Dashboard() {
+  const { events } = useSelector((state: any) => state.event);
+  console.log(events);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const data: any = { page: 1, limit: 3 };
+    dispatch(getEvents(data));
+  }, []);
+
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-  const [isAddParticipantModalOpen, setIsAddParticipantModalOpen] = useState(false);
+  const [isAddParticipantModalOpen, setIsAddParticipantModalOpen] =
+    useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
   const handleUpdateEvent = (event: Event) => {
@@ -68,7 +81,7 @@ export function Dashboard() {
           <p className="text-gray-500 mt-1">Welcome back, Admin</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-3">
-          <Button 
+          <Button
             variant="outline"
             onClick={() => setIsAddParticipantModalOpen(true)}
             className="flex items-center gap-2"
@@ -118,7 +131,7 @@ export function Dashboard() {
       {/* Charts and Recent Events Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ParticipantChart />
-        <RecentEvents events={mockEvents} onUpdateEvent={handleUpdateEvent} />
+        <RecentEvents events={events?.data} onUpdateEvent={handleUpdateEvent} />
       </div>
 
       {/* Featured Events */}
@@ -128,8 +141,8 @@ export function Dashboard() {
           <Button variant="outline">View All Events</Button>
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {mockEvents.map((event) => (
-            <EventCard key={event.id} event={event} />
+          {events?.data.map((event: any) => (
+            <EventCard key={event._id} event={event} />
           ))}
         </div>
       </section>
@@ -140,7 +153,7 @@ export function Dashboard() {
         onOpenChange={setIsUpdateModalOpen}
         event={selectedEvent}
       />
-      
+
       <AddParticipantModal
         isOpen={isAddParticipantModalOpen}
         onOpenChange={setIsAddParticipantModalOpen}

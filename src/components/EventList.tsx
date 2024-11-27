@@ -16,11 +16,13 @@ import { AppDispatch } from "@/store/store/Store";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { deleteEvent, getEvents } from "@/store/features/eventSlice";
+import { UpdateEventModal } from "./dashboard/UpdateEventModal";
 
 export function EventList() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const { events, count } = useSelector((state: any) => state.event);
-  console.log(events);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -45,7 +47,7 @@ export function EventList() {
         dispatch(deleteEvent(id));
         Swal.fire({
           title: "Deleted!",
-          text: "Your file has been deleted.",
+          text: "Your Event has been deleted.",
           icon: "success",
         });
       }
@@ -95,6 +97,10 @@ export function EventList() {
                   </TableCell>
                   <TableCell className="flex gap-1 items-center justify-end">
                     <Button
+                      onClick={() => {
+                        setIsUpdateModalOpen((prev) => !prev);
+                        setSelectedEvent(item);
+                      }}
                       className="text-green-400"
                       variant="ghost"
                       size="sm"
@@ -189,9 +195,16 @@ export function EventList() {
         </div>
       )}
 
+      {/* Modals */}
       <CreateEventModal
         isOpen={isCreateModalOpen}
         onOpenChange={setIsCreateModalOpen}
+      />
+
+      <UpdateEventModal
+        isOpen={isUpdateModalOpen}
+        onOpenChange={setIsUpdateModalOpen}
+        event={selectedEvent}
       />
     </div>
   );

@@ -80,6 +80,36 @@ export const getEvents = createAsyncThunk(
   }
 );
 
+export const updateEvent = createAsyncThunk(
+  "event/updateEvent",
+  async (data: any, thunkAPI) => {
+    try {
+      const token: any = localStorage.getItem("token");
+      const res: AxiosResponse = await axios.put(
+        `http://localhost:8001/api/v1/manager/event/update/${data.id}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Response from API:", res.data);
+
+      return res.data;
+    } catch (error: any) {
+      console.error(
+        "Error while registering:",
+        error.response?.data || error.message
+      );
+
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const deleteEvent = createAsyncThunk(
   "event/deleteEvent",
   async (id: string, thunkAPI) => {
@@ -161,6 +191,24 @@ const eventSlice = createSlice({
         console.log("User registered successfully:", action.payload);
       })
       .addCase(deleteEvent.rejected, (state, action: any) => {
+        state.isLoading = false;
+        state.status = false;
+      });
+
+    builder
+      // updateEvent
+      .addCase(updateEvent.pending, (state) => {
+        console.log("is pending");
+        state.isLoading = true;
+        state.status = false;
+      })
+      .addCase(updateEvent.fulfilled, (state, action: any) => {
+        console.log("is fulfilled");
+        state.isLoading = false;
+        state.count += 1;
+        console.log("User registered successfully:", action.payload);
+      })
+      .addCase(updateEvent.rejected, (state, action: any) => {
         state.isLoading = false;
         state.status = false;
       });

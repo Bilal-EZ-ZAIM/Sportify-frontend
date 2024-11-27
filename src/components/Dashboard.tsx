@@ -18,6 +18,7 @@ import { Event } from "@/types";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getEvents } from "@/store/features/eventSlice";
+import { AppDispatch } from "@/store/store/Store";
 
 const mockEvents = [
   {
@@ -55,7 +56,7 @@ const mockEvents = [
 export function Dashboard() {
   const { events } = useSelector((state: any) => state.event);
   console.log(events);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     const data: any = { page: 1, limit: 3 };

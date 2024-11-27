@@ -21,7 +21,7 @@ const initialState: EventState = {
 
 // Create async thunk for create a events
 export const createParticipant = createAsyncThunk(
-  "event/createParticipant",
+  "participant/createParticipant",
   async (data: any, thunkAPI) => {
     try {
       const token: any = localStorage.getItem("token");
@@ -52,7 +52,7 @@ export const createParticipant = createAsyncThunk(
 
 // Create async thunk for registering a user
 export const getParticipants = createAsyncThunk(
-  "event/getParticipants",
+  "participant/getParticipants",
   async (data: any, thunkAPI) => {
     try {
       const token: any = localStorage.getItem("token");
@@ -81,7 +81,7 @@ export const getParticipants = createAsyncThunk(
 );
 
 export const updateEvent = createAsyncThunk(
-  "event/updateEvent",
+  "participant/updateEvent",
   async (data: any, thunkAPI) => {
     try {
       const token: any = localStorage.getItem("token");
@@ -110,13 +110,13 @@ export const updateEvent = createAsyncThunk(
   }
 );
 
-export const deleteEvent = createAsyncThunk(
-  "event/deleteEvent",
+export const deleteParticipants = createAsyncThunk(
+  "participant/deleteParticipants",
   async (id: string, thunkAPI) => {
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.delete(
-        `http://localhost:8001/api/v1/manager/event/delete/${id}`,
+        `http://localhost:8001/api/v1/manager/participants/delete/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -138,7 +138,7 @@ export const deleteEvent = createAsyncThunk(
 );
 // Create the slice
 const Participantslice = createSlice({
-  name: "event",
+  name: "participant",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -179,18 +179,18 @@ const Participantslice = createSlice({
       });
 
     builder
-      // deleteEvent
-      .addCase(deleteEvent.pending, (state) => {
+      // deleteParticipants
+      .addCase(deleteParticipants.pending, (state) => {
         console.log("is pending");
         state.isLoading = true;
         state.status = false;
       })
-      .addCase(deleteEvent.fulfilled, (state, action: any) => {
+      .addCase(deleteParticipants.fulfilled, (state, action: any) => {
         state.isLoading = false;
         state.countparticipant += 1;
-        console.log("User registered successfully:", action.payload);
+        console.log("deleteParticipants successfully:", action.payload);
       })
-      .addCase(deleteEvent.rejected, (state, action: any) => {
+      .addCase(deleteParticipants.rejected, (state, action: any) => {
         state.isLoading = false;
         state.status = false;
       });

@@ -8,9 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
+import Swal from "sweetalert2";
 import { Input } from "./ui/input";
 import { SearchIcon } from "lucide-react";
-import { getParticipants } from "@/store/features/participantSlice";
+import {
+  deleteParticipants,
+  getParticipants,
+} from "@/store/features/participantSlice";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store/Store";
@@ -26,6 +30,27 @@ export function ParticipantList() {
     const data: any = { page: 1, limit: 10 };
     dispatch(getParticipants(data));
   }, [countparticipant]);
+
+  const deletedParticipants = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteParticipants(id));
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your Participant has been deleted.",
+          icon: "success",
+        });
+      }
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -66,9 +91,22 @@ export function ParticipantList() {
                     year: "numeric",
                   })}
                 </TableCell>
-                <TableCell className="text-right">
-                  <Button variant="ghost" size="sm">
-                    View Details
+                <TableCell className="flex gap-1 items-center justify-end">
+                  <Button
+                    onClick={() => {}}
+                    className="text-green-400"
+                    variant="ghost"
+                    size="sm"
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-red-500"
+                    onClick={() => deletedParticipants(item._id)}
+                  >
+                    Delete
                   </Button>
                 </TableCell>
               </TableRow>

@@ -9,6 +9,17 @@ export interface Event {
   status: 'upcoming' | 'ongoing' | 'completed';
 }
 
+export interface Events {
+  id: string;
+  title: string;
+  date: string;
+  location: string;
+  description: string;
+  maxParticipants: number;
+  currentParticipants: number;
+  status: 'upcoming' | 'ongoing' | 'completed';
+}
+
 export interface Participant {
   id: string;
   name: string;

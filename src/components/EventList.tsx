@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { CreateEventModal } from "./dashboard/CreateEventModal";
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
+import Swal from "sweetalert2";
 import {
   Table,
   TableBody,
@@ -14,12 +15,14 @@ import { PlusIcon } from "lucide-react";
 import { AppDispatch } from "@/store/store/Store";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getEvents } from "@/store/features/eventSlice";
+import { deleteEvent, getEvents } from "@/store/features/eventSlice";
+import { UpdateEventModal } from "./dashboard/UpdateEventModal";
 
 export function EventList() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const { events, count } = useSelector((state: any) => state.event);
-  console.log(events);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<any>(null);
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -29,6 +32,27 @@ export function EventList() {
     const data: any = { page: currentPage, limit: 6 };
     dispatch(getEvents(data));
   }, [currentPage, count]);
+
+  const deletedEvent = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteEvent(id));
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your Event has been deleted.",
+          icon: "success",
+        });
+      }
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -73,13 +97,22 @@ export function EventList() {
                   </TableCell>
                   <TableCell className="flex gap-1 items-center justify-end">
                     <Button
+                      onClick={() => {
+                        setIsUpdateModalOpen((prev) => !prev);
+                        setSelectedEvent(item);
+                      }}
                       className="text-green-400"
                       variant="ghost"
                       size="sm"
                     >
                       Edit
                     </Button>
-                    <Button variant="ghost" size="sm" className="text-red-500">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-red-500"
+                      onClick={() => deletedEvent(item._id)}
+                    >
                       Delete
                     </Button>
                   </TableCell>
@@ -162,9 +195,16 @@ export function EventList() {
         </div>
       )}
 
+      {/* Modals */}
       <CreateEventModal
         isOpen={isCreateModalOpen}
         onOpenChange={setIsCreateModalOpen}
+      />
+
+      <UpdateEventModal
+        isOpen={isUpdateModalOpen}
+        onOpenChange={setIsUpdateModalOpen}
+        event={selectedEvent}
       />
     </div>
   );

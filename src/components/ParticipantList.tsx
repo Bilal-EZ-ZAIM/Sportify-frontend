@@ -14,17 +14,23 @@ import { SearchIcon } from "lucide-react";
 import {
   deleteParticipants,
   getParticipants,
+  updateParticipant,
 } from "@/store/features/participantSlice";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store/Store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { UpdateParticipantModal } from "./dashboard/UpdateParticipantModal";
 
 export function ParticipantList() {
   const { countparticipant, participant } = useSelector(
     (state: any) => state.participant
   );
+  
   const dispatch: AppDispatch = useDispatch();
+
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [selectedEvent, selectedParticipant] = useState<any>(null);
 
   useEffect(() => {
     const data: any = { page: 1, limit: 10 };
@@ -93,7 +99,10 @@ export function ParticipantList() {
                 </TableCell>
                 <TableCell className="flex gap-1 items-center justify-end">
                   <Button
-                    onClick={() => {}}
+                    onClick={() => {
+                      setIsUpdateModalOpen((prev) => !prev);
+                      selectedParticipant(item);
+                    }}
                     className="text-green-400"
                     variant="ghost"
                     size="sm"
@@ -114,6 +123,11 @@ export function ParticipantList() {
           </TableBody>
         </Table>
       </Card>
+      <UpdateParticipantModal
+        isOpen={isUpdateModalOpen}
+        onOpenChange={setIsUpdateModalOpen}
+        participant={selectedEvent}
+      />
     </div>
   );
 }

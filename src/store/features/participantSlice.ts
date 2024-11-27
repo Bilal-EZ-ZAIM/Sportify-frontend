@@ -57,7 +57,7 @@ export const getParticipants = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.get(
-        `http://localhost:8001/api/v1/manager/event?page=${data.page}&limit=${data.limit}`,
+        `http://localhost:8001/api/v1/manager/participants`,
         {
           headers: {
             "Content-Type": "application/json",

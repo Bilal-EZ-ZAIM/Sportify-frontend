@@ -80,13 +80,20 @@ export const getParticipants = createAsyncThunk(
   }
 );
 
-export const updateEvent = createAsyncThunk(
-  "participant/updateEvent",
+export const updateParticipant = createAsyncThunk(
+  "participant/updateParticipant",
   async (data: any, thunkAPI) => {
     try {
       const token: any = localStorage.getItem("token");
+      console.log("===========");
+
+      console.log(data);
+
+      console.log("===========");
+
       const res: AxiosResponse = await axios.put(
-        `http://localhost:8001/api/v1/manager/event/update/${data.id}`,
+        `http://localhost:8001/api/v1/manager/participants/update/${data.id}`,
+
         data,
         {
           headers: {
@@ -196,19 +203,19 @@ const Participantslice = createSlice({
       });
 
     builder
-      // updateEvent
-      .addCase(updateEvent.pending, (state) => {
+      // updateParticipant
+      .addCase(updateParticipant.pending, (state) => {
         console.log("is pending");
         state.isLoading = true;
         state.status = false;
       })
-      .addCase(updateEvent.fulfilled, (state, action: any) => {
+      .addCase(updateParticipant.fulfilled, (state, action: any) => {
         console.log("is fulfilled");
         state.isLoading = false;
         state.countparticipant += 1;
         console.log("User registered successfully:", action.payload);
       })
-      .addCase(updateEvent.rejected, (state, action: any) => {
+      .addCase(updateParticipant.rejected, (state, action: any) => {
         state.isLoading = false;
         state.status = false;
       });

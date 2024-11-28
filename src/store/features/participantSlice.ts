@@ -26,7 +26,7 @@ export const createParticipant = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.post(
-        "http://ec2-13-61-13-147.eu-north-1.compute.amazonaws.com/api/v1/manager/participants/create",
+        "https://sportfy.onrender.com/api/v1/manager/participants/create",
         data,
         {
           headers: {
@@ -57,7 +57,7 @@ export const getParticipants = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.get(
-        `http://ec2-13-61-13-147.eu-north-1.compute.amazonaws.com/api/v1/manager/participants`,
+        `https://sportfy.onrender.com/api/v1/manager/participants`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -92,7 +92,7 @@ export const updateParticipant = createAsyncThunk(
       console.log("===========");
 
       const res: AxiosResponse = await axios.put(
-        `http://ec2-13-61-13-147.eu-north-1.compute.amazonaws.com/api/v1/manager/participants/update/${data.id}`,
+        `https://sportfy.onrender.com/api/v1/manager/participants/update/${data.id}`,
 
         data,
         {
@@ -123,7 +123,7 @@ export const deleteParticipants = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.delete(
-        `http://ec2-13-61-13-147.eu-north-1.compute.amazonaws.com/api/v1/manager/participants/delete/${id}`,
+        `https://sportfy.onrender.com/api/v1/manager/participants/delete/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -180,7 +180,7 @@ const Participantslice = createSlice({
         console.log("Get Participants", action.payload);
         state.participant = action.payload;
       })
-      .addCase(getParticipants.rejected, (state, ) => {
+      .addCase(getParticipants.rejected, (state) => {
         state.isLoading = false;
         state.status = false;
       });
@@ -197,7 +197,7 @@ const Participantslice = createSlice({
         state.countparticipant += 1;
         console.log("deleteParticipants successfully:", action.payload);
       })
-      .addCase(deleteParticipants.rejected, (state, ) => {
+      .addCase(deleteParticipants.rejected, (state) => {
         state.isLoading = false;
         state.status = false;
       });

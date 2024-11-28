@@ -26,7 +26,7 @@ export const createEvent = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.post(
-        "http://ec2-13-61-13-147.eu-north-1.compute.amazonaws.com/api/v1/manager/event/create",
+        "https://sportfy.onrender.com/api/v1/manager/event/create",
         data,
         {
           headers: {
@@ -57,7 +57,7 @@ export const getEvents = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.get(
-        `http://ec2-13-61-13-147.eu-north-1.compute.amazonaws.com/api/v1/manager/event?page=${data.page}&limit=${data.limit}`,
+        `https://sportfy.onrender.com/api/v1/manager/event?page=${data.page}&limit=${data.limit}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -86,7 +86,7 @@ export const updateEvent = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.put(
-        `http://ec2-13-61-13-147.eu-north-1.compute.amazonaws.com/api/v1/manager/event/update/${data.id}`,
+        `https://sportfy.onrender.com/api/v1/manager/event/update/${data.id}`,
         data,
         {
           headers: {
@@ -116,7 +116,7 @@ export const deleteEvent = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.delete(
-        `http://ec2-13-61-13-147.eu-north-1.compute.amazonaws.com/api/v1/manager/event/delete/${id}`,
+        `https://sportfy.onrender.com/api/v1/manager/event/delete/${id}`,
         {
           headers: {
             "Content-Type": "application/json",

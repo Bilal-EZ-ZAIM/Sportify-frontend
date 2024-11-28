@@ -38,7 +38,7 @@ export const registers = createAsyncThunk(
 
     try {
       const res: AxiosResponse = await axios.post(
-        "http://localhost:8001/api/v1/auth/register",
+        "http://ec2-13-61-13-147.eu-north-1.compute.amazonaws.com/api/v1/auth/register",
         data,
         {
           headers: {
@@ -67,7 +67,7 @@ export const login = createAsyncThunk(
 
     try {
       const res: AxiosResponse = await axios.post(
-        "http://localhost:8001/api/v1/auth/login",
+        "http://ec2-13-61-13-147.eu-north-1.compute.amazonaws.com/api/v1/auth/login",
         data,
         {
           headers: {
@@ -206,7 +206,7 @@ export const isLogins = createAsyncThunk(
   async (token: string, thunkAPI: any) => {
     try {
       const res = await axios.get(
-        `http://localhost:8001/api/v1/auth/islogin/`,
+        `http://ec2-13-61-13-147.eu-north-1.compute.amazonaws.com/api/v1/auth/islogin/`,
         {
           headers: {
             "Content-Type": "application/json",

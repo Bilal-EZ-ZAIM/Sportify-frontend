@@ -1,7 +1,6 @@
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { PencilIcon } from "lucide-react";
-import { Event } from "@/types";
 
 // interface RecentEventsProps {
 //   events: Event[];

@@ -20,38 +20,6 @@ import { useDispatch } from "react-redux";
 import { getEvents } from "@/store/features/eventSlice";
 import { AppDispatch } from "@/store/store/Store";
 
-const mockEvents = [
-  {
-    id: "1",
-    title: "City Marathon 2024",
-    date: "March 15, 2024",
-    location: "Central Park",
-    description: "Annual city marathon event",
-    maxParticipants: 500,
-    currentParticipants: 350,
-    status: "upcoming" as const,
-  },
-  {
-    id: "2",
-    title: "Basketball Tournament",
-    date: "March 20, 2024",
-    location: "Sports Complex",
-    description: "Inter-city basketball championship",
-    maxParticipants: 200,
-    currentParticipants: 180,
-    status: "ongoing" as const,
-  },
-  {
-    id: "3",
-    title: "Swimming Competition",
-    date: "March 25, 2024",
-    location: "Olympic Pool",
-    description: "National swimming championship",
-    maxParticipants: 100,
-    currentParticipants: 75,
-    status: "upcoming" as const,
-  },
-];
 
 export function Dashboard() {
   const { events, count } = useSelector((state: any) => state.event);

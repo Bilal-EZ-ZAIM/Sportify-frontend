@@ -26,7 +26,7 @@ export const createEvent = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.post(
-        "http://localhost:8001/api/v1/manager/event/create",
+        "http://ec2-13-61-13-147.eu-north-1.compute.amazonaws.com/api/v1/manager/event/create",
         data,
         {
           headers: {
@@ -57,7 +57,7 @@ export const getEvents = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.get(
-        `http://localhost:8001/api/v1/manager/event?page=${data.page}&limit=${data.limit}`,
+        `http://ec2-13-61-13-147.eu-north-1.compute.amazonaws.com/api/v1/manager/event?page=${data.page}&limit=${data.limit}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -86,7 +86,7 @@ export const updateEvent = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.put(
-        `http://localhost:8001/api/v1/manager/event/update/${data.id}`,
+        `http://ec2-13-61-13-147.eu-north-1.compute.amazonaws.com/api/v1/manager/event/update/${data.id}`,
         data,
         {
           headers: {
@@ -116,7 +116,7 @@ export const deleteEvent = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.delete(
-        `http://localhost:8001/api/v1/manager/event/delete/${id}`,
+        `http://ec2-13-61-13-147.eu-north-1.compute.amazonaws.com/api/v1/manager/event/delete/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -155,7 +155,7 @@ const eventSlice = createSlice({
         state.count += 1;
         console.log("User registered successfully:", action.payload);
       })
-      .addCase(createEvent.rejected, (state, action: any) => {
+      .addCase(createEvent.rejected, (state) => {
         state.isLoading = false;
         state.status = false;
       });
@@ -173,7 +173,7 @@ const eventSlice = createSlice({
         console.log("Get events", action.payload);
         state.events = action.payload;
       })
-      .addCase(getEvents.rejected, (state, action: any) => {
+      .addCase(getEvents.rejected, (state) => {
         state.isLoading = false;
         state.status = false;
       });
@@ -190,7 +190,7 @@ const eventSlice = createSlice({
         state.count += 1;
         console.log("User registered successfully:", action.payload);
       })
-      .addCase(deleteEvent.rejected, (state, action: any) => {
+      .addCase(deleteEvent.rejected, (state) => {
         state.isLoading = false;
         state.status = false;
       });
@@ -208,7 +208,7 @@ const eventSlice = createSlice({
         state.count += 1;
         console.log("User registered successfully:", action.payload);
       })
-      .addCase(updateEvent.rejected, (state, action: any) => {
+      .addCase(updateEvent.rejected, (state) => {
         state.isLoading = false;
         state.status = false;
       });

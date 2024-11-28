@@ -7,7 +7,6 @@ import { Textarea } from "../ui/textarea";
 import { updateEvent } from "@/store/features/eventSlice";
 import { AppDispatch } from "@/store/store/Store";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 
 interface UpdateEventModalProps {
@@ -31,7 +30,6 @@ export function UpdateEventModal({
   onOpenChange,
   event,
 }: UpdateEventModalProps) {
-  const { isLoading } = useSelector((state: any) => state.event);
 
   const dispatch: AppDispatch = useDispatch();
   const {

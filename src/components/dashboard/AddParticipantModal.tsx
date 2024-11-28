@@ -26,7 +26,6 @@ export function AddParticipantModal({
   onOpenChange,
 }: AddParticipantModalProps) {
   const { events, count } = useSelector((state: any) => state.event);
-  const { countparticipant } = useSelector((state: any) => state.participant);
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {

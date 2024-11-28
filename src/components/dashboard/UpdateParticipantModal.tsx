@@ -1,11 +1,10 @@
 import React from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { AppDispatch } from "@/store/store/Store";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { updateParticipant } from "@/store/features/participantSlice";
 
@@ -27,7 +26,6 @@ export function UpdateParticipantModal({
   onOpenChange,
   participant,
 }: UpdateParticipantModalProps) {
-  const { isLoading } = useSelector((state: any) => state.event);
 
   const dispatch: AppDispatch = useDispatch();
   const {

@@ -3,7 +3,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store/Store";
 import { createEvent } from "@/store/features/eventSlice";
@@ -26,7 +25,6 @@ export function CreateEventModal({
   isOpen,
   onOpenChange,
 }: CreateEventModalProps) {
-  const { isLoading } = useSelector((state: any) => state.event);
 
   const dispatch: AppDispatch = useDispatch();
   const {

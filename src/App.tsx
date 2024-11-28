@@ -47,7 +47,7 @@ function App() {
     isLogin ? null : dispatch(isLogins(token));
   }
   return (
-    <Router basename="/sportyf">
+    <Router basename="/Sportify-frontend">
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route

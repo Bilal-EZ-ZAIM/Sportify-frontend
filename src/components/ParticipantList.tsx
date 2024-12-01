@@ -14,19 +14,19 @@ import { SearchIcon } from "lucide-react";
 import {
   deleteParticipants,
   getParticipants,
-  updateParticipant,
 } from "@/store/features/participantSlice";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store/Store";
 import { useEffect, useState } from "react";
 import { UpdateParticipantModal } from "./dashboard/UpdateParticipantModal";
+import jsPDF from "jspdf"; 
 
 export function ParticipantList() {
   const { countparticipant, participant } = useSelector(
     (state: any) => state.participant
   );
-  
+
   const dispatch: AppDispatch = useDispatch();
 
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -58,6 +58,37 @@ export function ParticipantList() {
     });
   };
 
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    let y = 10; 
+
+    doc.setFontSize(16);
+    doc.text("Participants List", 105, y, { align: "center" });
+    y += 10;
+
+    doc.setFontSize(12);
+    doc.text("Name", 20, y);
+    doc.text("Email", 70, y);
+    doc.text("Phone", 120, y);
+    doc.text("Event", 160, y);
+    y += 10;
+
+    participant?.data.forEach((item: any, index: number) => {
+      doc.text(item.username, 20, y);
+      doc.text(item.email, 70, y);
+      doc.text(item.phone, 120, y);
+      doc.text(item.event.name, 160, y);
+      y += 10;
+
+      if (y > 280) {
+        doc.addPage();
+        y = 10;
+      }
+    });
+
+    doc.save("participants_list.pdf");
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -67,7 +98,7 @@ export function ParticipantList() {
             <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
             <Input placeholder="Search participants..." className="pl-10" />
           </div>
-          <Button>Export List</Button>
+          <Button onClick={exportToPDF}>Export List</Button>
         </div>
       </div>
 
@@ -103,7 +134,7 @@ export function ParticipantList() {
                       setIsUpdateModalOpen((prev) => !prev);
                       selectedParticipant(item);
                     }}
-                    className="text-green-400"
+                    className="text-green-500 bg-gray-100"
                     variant="ghost"
                     size="sm"
                   >
@@ -112,7 +143,7 @@ export function ParticipantList() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-red-500"
+                    className="text-red-500 bg-gray-100"
                     onClick={() => deletedParticipants(item._id)}
                   >
                     Delete

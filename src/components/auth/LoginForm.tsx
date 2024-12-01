@@ -15,8 +15,10 @@ interface IFormInput {
 }
 
 export function LoginForm() {
-  const { isLoading, error, isLogin } = useSelector((state: any) => state.auth);
-  console.log(error);
+  const { isLoading,  errorLogin, isLogin } = useSelector(
+    (state: any) => state.auth
+  );
+
   const navigate = useNavigate();
   console.log(isLoading);
   const dispatch: AppDispatch = useDispatch();
@@ -42,14 +44,14 @@ export function LoginForm() {
           <p className="text-gray-500 mt-2">Sign in to your account</p>
         </div>
 
-        {error && (
+        {errorLogin && (
           <div className="w-full mx-auto bg-white">
             <div
               className="mt-5 flex items-center justify-between p-3 leading-normal text-red-600 bg-red-100 rounded-lg"
               role="alert"
             >
               <div className="flex items-center">
-                <p>{error}</p>
+                <p>{errorLogin}</p>
               </div>
             </div>
           </div>

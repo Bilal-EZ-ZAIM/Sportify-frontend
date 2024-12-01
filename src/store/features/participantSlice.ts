@@ -2,6 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import axios, { AxiosResponse } from "axios";
 
+const api: string = "http://localhost:8001";
+
+// const api: string = "https://sportfy.onrender.com";
+
 interface EventState {
   isLoading: boolean;
   erros: string | null;
@@ -26,7 +30,7 @@ export const createParticipant = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.post(
-        "https://sportfy.onrender.com/api/v1/manager/participants/create",
+        `${api}/api/v1/manager/participants/create`,
         data,
         {
           headers: {
@@ -57,7 +61,7 @@ export const getParticipants = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.get(
-        `https://sportfy.onrender.com/api/v1/manager/participants`,
+        `${api}/api/v1/manager/participants`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -92,7 +96,7 @@ export const updateParticipant = createAsyncThunk(
       console.log("===========");
 
       const res: AxiosResponse = await axios.put(
-        `https://sportfy.onrender.com/api/v1/manager/participants/update/${data.id}`,
+        `${api}/api/v1/manager/participants/update/${data.id}`,
 
         data,
         {
@@ -123,7 +127,7 @@ export const deleteParticipants = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.delete(
-        `https://sportfy.onrender.com/api/v1/manager/participants/delete/${id}`,
+        `${api}/api/v1/manager/participants/delete/${id}`,
         {
           headers: {
             "Content-Type": "application/json",

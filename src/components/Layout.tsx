@@ -19,7 +19,7 @@ export function Layout({ children }: LayoutProps) {
           variant="ghost"
           size="sm"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 bg-gray-100"
         >
           <Menu className="h-5 w-5" />
           <span>Menu</span>

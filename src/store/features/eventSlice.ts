@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import axios, { AxiosResponse } from "axios";
+const api: string = "http://localhost:8001";
+
+// const api: string = "https://sportfy.onrender.com";
 
 interface EventState {
   isLoading: boolean;
@@ -24,13 +27,15 @@ export const createEvent = createAsyncThunk(
   "event/createEvent",
   async (data: any, thunkAPI) => {
     try {
+      console.log(data);
+
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.post(
-        "https://sportfy.onrender.com/api/v1/manager/event/create",
+        api + "/api/v1/manager/event/create",
         data,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
           },
         }
@@ -57,7 +62,7 @@ export const getEvents = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.get(
-        `https://sportfy.onrender.com/api/v1/manager/event?page=${data.page}&limit=${data.limit}`,
+        `${api}/api/v1/manager/event?page=${data.page}&limit=${data.limit}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -86,7 +91,7 @@ export const updateEvent = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.put(
-        `https://sportfy.onrender.com/api/v1/manager/event/update/${data.id}`,
+        `${api}/api/v1/manager/event/update/${data.id}`,
         data,
         {
           headers: {
@@ -116,7 +121,7 @@ export const deleteEvent = createAsyncThunk(
     try {
       const token: any = localStorage.getItem("token");
       const res: AxiosResponse = await axios.delete(
-        `https://sportfy.onrender.com/api/v1/manager/event/delete/${id}`,
+        `${api}/api/v1/manager/event/delete/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -152,12 +157,14 @@ const eventSlice = createSlice({
       .addCase(createEvent.fulfilled, (state, action: any) => {
         console.log("is fulfilled");
         state.isLoading = false;
+        state.status = true;
         state.count += 1;
         console.log("User registered successfully:", action.payload);
       })
-      .addCase(createEvent.rejected, (state) => {
+      .addCase(createEvent.rejected, (state, action: any) => {
         state.isLoading = false;
         state.status = false;
+        state.erros = action.payload.response.data.errors;
       });
 
     builder
@@ -165,7 +172,6 @@ const eventSlice = createSlice({
       .addCase(getEvents.pending, (state) => {
         console.log("is pending");
         state.isLoading = true;
-        state.status = false;
       })
       .addCase(getEvents.fulfilled, (state, action: any) => {
         console.log("is fulfilled");
@@ -175,7 +181,6 @@ const eventSlice = createSlice({
       })
       .addCase(getEvents.rejected, (state) => {
         state.isLoading = false;
-        state.status = false;
       });
 
     builder
@@ -183,7 +188,6 @@ const eventSlice = createSlice({
       .addCase(deleteEvent.pending, (state) => {
         console.log("is pending");
         state.isLoading = true;
-        state.status = false;
       })
       .addCase(deleteEvent.fulfilled, (state, action: any) => {
         state.isLoading = false;
@@ -192,7 +196,6 @@ const eventSlice = createSlice({
       })
       .addCase(deleteEvent.rejected, (state) => {
         state.isLoading = false;
-        state.status = false;
       });
 
     builder

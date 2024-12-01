@@ -101,7 +101,7 @@ export function EventList() {
                         setIsUpdateModalOpen((prev) => !prev);
                         setSelectedEvent(item);
                       }}
-                      className="text-green-400"
+                      className="text-green-400 bg-gray-100"
                       variant="ghost"
                       size="sm"
                     >
@@ -110,7 +110,7 @@ export function EventList() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="text-red-500"
+                      className="text-red-500 bg-gray-100"
                       onClick={() => deletedEvent(item._id)}
                     >
                       Delete

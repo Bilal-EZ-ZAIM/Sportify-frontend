@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import axios, { AxiosResponse } from "axios";
+const api: string = "http://localhost:8001";
+
+// const apiss: string = "https://sportfy.onrender.com";
 
 interface AuthState {
   isLoading: boolean;
@@ -11,6 +14,7 @@ interface AuthState {
   status: boolean;
   isLogin: boolean;
   messageForgetPassword: string | null;
+  errorLogin: string|null;
   message: string | null;
 }
 
@@ -25,6 +29,7 @@ const initialState: AuthState = {
   isLogin: false,
   messageForgetPassword: null,
   message: null,
+  errorLogin: null,
 };
 
 // Create async thunk for registering a user
@@ -38,7 +43,7 @@ export const registers = createAsyncThunk(
 
     try {
       const res: AxiosResponse = await axios.post(
-        "https://sportfy.onrender.com/api/v1/auth/register",
+        api + "/api/v1/auth/register",
         data,
         {
           headers: {
@@ -63,11 +68,16 @@ export const registers = createAsyncThunk(
 export const login = createAsyncThunk(
   "auth/login",
   async (data: any, thunkAPI) => {
+    console.log("===========");
+
+    console.log("Data ", data);
+    console.log("===========");
     console.log("Data being sent to API:", data);
+    console.log(api);
 
     try {
       const res: AxiosResponse = await axios.post(
-        "https://sportfy.onrender.com/api/v1/auth/login",
+        `${api}/api/v1/auth/login`,
         data,
         {
           headers: {
@@ -205,15 +215,12 @@ export const isLogins = createAsyncThunk(
   "auth/isLogins",
   async (token: string, thunkAPI: any) => {
     try {
-      const res = await axios.get(
-        `https://sportfy.onrender.com/api/v1/auth/islogin/`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await axios.get(`${api}/api/v1/auth/islogin/`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       console.log("Response from API:", res.data);
 
@@ -281,8 +288,9 @@ const authSlice = createSlice({
       .addCase(login.rejected, (state, action: any) => {
         console.log(action.payload.response.data.message);
         state.isLoading = false;
-        state.error = action.payload.response.data.message;
+        state.errorLogin = action.payload.response.data.message;
         state.status = false;
+        console.log(action.payload);
       });
 
     // verifyOtp

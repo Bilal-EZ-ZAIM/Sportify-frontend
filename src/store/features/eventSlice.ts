@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import axios, { AxiosResponse } from "axios";
-const api: string = "http://localhost:8001";
+// const api: string = "http://localhost:8001";
 
-// const api: string = "https://sportfy.onrender.com";
+const api: string = "https://sportfy.onrender.com";
 
 interface EventState {
   isLoading: boolean;
